@@ -16,14 +16,13 @@ const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
 const DraggableColumnHeader = ({ header, table }) => {
     const { getState, setColumnOrder } = table
     const { columnOrder } = getState()
-    const { column } = header
 
     const [, dropRef] = useDrop({
         accept: 'column',
         drop: (draggedColumn) => {
             const newColumnOrder = reorderColumn(
                 draggedColumn.id,
-                column.id,
+                header.id,
                 columnOrder
             )
             setColumnOrder(newColumnOrder)
@@ -34,7 +33,7 @@ const DraggableColumnHeader = ({ header, table }) => {
         collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
-        item: () => column,
+        item: () => header,
         type: 'column',
     })
 
@@ -61,16 +60,19 @@ function BasicTable() {
 
     const columns = [
         {
+            id: 1,
             header: 'ID',
             accessorKey: 'id',
             footer: 'id'
         },
         {
+            id: 2,
             header: 'First name',
             accessorKey: 'first_name',
             footer: 'First name'
         },
         {
+            id: 3,
             header: 'Last name',
             accessorKey: 'last_name',
             footer: 'Last name'
