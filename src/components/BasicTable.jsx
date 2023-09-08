@@ -1,6 +1,6 @@
 import { useReactTable, flexRender, getCoreRowModel } from "@tanstack/react-table";
 import { useDrag, useDrop } from 'react-dnd'
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import mData from '../MOCK_DATA.json'
 
 const reorderColumn = (draggedColumnId, targetColumnId, columnOrder) => {
@@ -60,27 +60,27 @@ function BasicTable() {
 
     const columns = [
         {
-            id: 1,
+            id: '1',
             header: 'ID',
             accessorKey: 'id',
             footer: 'id'
         },
         {
-            id: 2,
+            id: '2',
             header: 'First name',
             accessorKey: 'first_name',
             footer: 'First name'
         },
         {
-            id: 3,
+            id: '3',
             header: 'Last name',
             accessorKey: 'last_name',
             footer: 'Last name'
         }
     ]
 
-    const [columnOrder, setColumnOrder] = columns.map(column => column.id)
-
+    const [columnOrder, setColumnOrder] = useState(columns.map(column => column.id))
+ 
     const table = useReactTable({
         data,
         columns,
@@ -89,6 +89,7 @@ function BasicTable() {
         },
         onColumnOrderChange: setColumnOrder,
         getCoreRowModel: getCoreRowModel(),
+        setColumnOrder: (n) => setColumnOrder(n),
         debugTable: true,
         debugHeaders: true,
         debugColumns: true,
